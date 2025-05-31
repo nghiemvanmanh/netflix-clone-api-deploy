@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync } from 'bcrypt';
 import { RefreshToken } from 'database/entities/refresh-token.entity';
-
 import { User } from 'database/entities/user.entity';
 
 import { Repository } from 'typeorm';
