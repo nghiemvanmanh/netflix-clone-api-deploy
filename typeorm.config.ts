@@ -3,6 +3,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import 'dotenv/config';
 
+const isProduction: boolean = process.env.NODE_ENV === 'production';
 const ConfigDataSource: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -10,8 +11,16 @@ const ConfigDataSource: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  migrations: [`${process.cwd()}/database/migrations/**.{ts,js}`],
-  entities: [`${process.cwd()}/database/**/**.entity.{ts,js}`],
+  entities: [
+    isProduction
+      ? `${process.cwd()}/database/**/**.entity.js`
+      : `${process.cwd()}/database/**/**.entity.ts`,
+  ],
+  migrations: [
+    isProduction
+      ? `${process.cwd()}/database/migrations/**/*.js`
+      : `${process.cwd()}/database/migrations/**/*.ts`,
+  ],
   ssl: {
     rejectUnauthorized: false, // Bắt buộc nếu dùng SSL mà không có CA certificate
   },
