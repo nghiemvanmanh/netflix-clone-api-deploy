@@ -1,24 +1,18 @@
 import 'reflect-metadata';
-import path from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 
-const entitiesPath = path.join(
-  process.cwd(),
-  'dist',
-  'database',
-  '**',
-  '*.entity.js',
-);
-const migrationsPath = path.join(
-  process.cwd(),
-  'dist',
-  'database',
-  'migrations',
-  '**',
-  '*.js',
-);
+const isProduction: boolean = process.env.NODE_ENV === 'production';
 
+const entitiesPath = isProduction
+  ? `${process.cwd()}/database/**/**.entity.js`
+  : `${process.cwd()}/database/**/**.entity.ts`;
+
+const migrationsPath = isProduction
+  ? `${process.cwd()}/database/migrations/**/*.js`
+  : `${process.cwd()}/database/migrations/**/*.ts`;
+
+console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('Entities path:', entitiesPath);
 console.log('Migrations path:', migrationsPath);
 
