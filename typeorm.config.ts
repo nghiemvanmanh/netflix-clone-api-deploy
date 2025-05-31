@@ -1,9 +1,8 @@
 import 'reflect-metadata';
+import path from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
-
 import 'dotenv/config';
 
-// const isProduction: boolean = process.env.NODE_ENV === 'production';
 const ConfigDataSource: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -11,20 +10,13 @@ const ConfigDataSource: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  // entities: [
-  //   isProduction
-  //     ? `${process.cwd()}/database/**/**.entity.js`
-  //     : `${process.cwd()}/database/**/**.entity.ts`,
-  // ],
-  // migrations: [
-  //   isProduction
-  //     ? `${process.cwd()}/database/migrations/**/*.js`
-  //     : `${process.cwd()}/database/migrations/**/*.ts`,
-  // ],
-  entities: [`${process.cwd()}/database/**/**.entity.js`],
-  migrations: [`${process.cwd()}/database/migrations/**/*.js`],
+
+  // Dùng __dirname vì khi chạy file đã build, __dirname sẽ là thư mục dist hoặc build
+  entities: [path.join(__dirname, 'database', '**', '*.entity.js')],
+  migrations: [path.join(__dirname, 'database', 'migrations', '**', '*.js')],
+
   ssl: {
-    rejectUnauthorized: false, // Bắt buộc nếu dùng SSL mà không có CA certificate
+    rejectUnauthorized: false,
   },
 };
 
