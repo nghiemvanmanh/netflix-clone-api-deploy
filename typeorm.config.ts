@@ -3,6 +3,25 @@ import path from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 
+const entitiesPath = path.join(
+  process.cwd(),
+  'dist',
+  'database',
+  '**',
+  '*.entity.js',
+);
+const migrationsPath = path.join(
+  process.cwd(),
+  'dist',
+  'database',
+  'migrations',
+  '**',
+  '*.js',
+);
+
+console.log('Entities path:', entitiesPath);
+console.log('Migrations path:', migrationsPath);
+
 const ConfigDataSource: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -10,11 +29,8 @@ const ConfigDataSource: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-
-  // Dùng __dirname vì khi chạy file đã build, __dirname sẽ là thư mục dist hoặc build
-  entities: [path.join(__dirname, 'database', '**', '*.entity.js')],
-  migrations: [path.join(__dirname, 'database', 'migrations', '**', '*.js')],
-
+  entities: [entitiesPath],
+  migrations: [migrationsPath],
   ssl: {
     rejectUnauthorized: false,
   },
