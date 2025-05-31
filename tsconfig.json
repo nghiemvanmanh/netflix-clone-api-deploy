@@ -17,7 +17,9 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "rootDir": "."
+    "rootDir": ".",
+    "esModuleInterop": true
+
     // Bỏ "rootDir" hoặc đặt thành "./" nếu cần
   },
   "include": ["src/**/*", "database/**/*"],
